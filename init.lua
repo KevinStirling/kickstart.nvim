@@ -191,10 +191,10 @@ require('lazy').setup({
 
   {
     -- Theme inspired by Atom
-    'navarasu/onedark.nvim',
+    'ellisonleao/gruvbox.nvim',
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme 'onedark'
+      vim.cmd.colorscheme 'gruvbox'
     end,
   },
 
@@ -205,7 +205,7 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = false,
-        theme = 'onedark',
+        theme = 'gruvbox',
         component_separators = '|',
         section_separators = '',
       },
