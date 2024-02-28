@@ -290,7 +290,10 @@ require('lazy').setup({
   { 'windwp/nvim-autopairs' },
 
   -- Filetree plugin (file explorer)
-  { 'nvim-neo-tree/neo-tree.nvim' }
+  { 'nvim-neo-tree/neo-tree.nvim' },
+
+  -- gdscript syntax highlighting
+  { 'quabug/vim-gdscript' }
 }, {})
 
 -- [[ Setting options ]]
