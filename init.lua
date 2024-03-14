@@ -190,7 +190,6 @@ require('lazy').setup({
   },
 
   {
-    -- Theme inspired by Atom
     'ellisonleao/gruvbox.nvim',
     priority = 1000,
     config = function()
@@ -293,7 +292,15 @@ require('lazy').setup({
   { 'nvim-neo-tree/neo-tree.nvim' },
 
   -- gdscript syntax highlighting
-  { 'quabug/vim-gdscript' }
+  { 'quabug/vim-gdscript' },
+
+  -- sticky headers
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+    enabled = true,
+    opts = { mode = "cursor", max_lines = 3 },
+    keys = {},
+  }
 }, {})
 
 -- [[ Setting options ]]
