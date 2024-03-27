@@ -212,23 +212,6 @@ require('lazy').setup({
   },
 
   {
-    "christoomey/vim-tmux-navigator",
-    cmd = {
-      "TmuxNavigateLeft",
-      "TmuxNavigateDown",
-      "TmuxNavigateUp",
-      "TmuxNavigateRight",
-      "TmuxNavigatePrevious",
-    },
-    keys = {
-      { "<c-h>",  "<cmd><C-U>TmuxNavigateLeft<cr>" },
-      { "<c-j>",  "<cmd><C-U>TmuxNavigateDown<cr>" },
-      { "<c-k>",  "<cmd><C-U>TmuxNavigateUp<cr>" },
-      { "<c-l>",  "<cmd><C-U>TmuxNavigateRight<cr>" },
-      { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
-    },
-  },
-  {
     -- Add indentation guides even on blank lines
     'lukas-reineke/indent-blankline.nvim',
     -- Enable `lukas-reineke/indent-blankline.nvim`
@@ -294,13 +277,6 @@ require('lazy').setup({
   -- gdscript syntax highlighting
   { 'quabug/vim-gdscript' },
 
-  -- sticky headers
-  {
-    "nvim-treesitter/nvim-treesitter-context",
-    enabled = true,
-    opts = { mode = "cursor", max_lines = 3 },
-    keys = {},
-  }
 }, {})
 
 -- [[ Setting options ]]
