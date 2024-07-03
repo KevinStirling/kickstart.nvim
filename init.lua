@@ -48,7 +48,16 @@ require('lazy').setup({
 
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim',       opts = {} },
+      {
+        'j-hui/fidget.nvim',
+        opts = {
+          notification = {
+            window = {
+              winblend = 0,
+            },
+          },
+        },
+      },
 
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
@@ -147,15 +156,31 @@ require('lazy').setup({
         map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>', { desc = 'select git hunk' })
       end,
     },
-  },
 
-  -- {
-  --   'ellisonleao/gruvbox.nvim',
-  --   priority = 1000,
-  --   config = function()
-  --     vim.cmd.colorscheme 'gruvbox'
-  --   end,
-  -- },
+    -- Set visuals and colorscheme
+  },
+  'xiyaowong/nvim-transparent',
+  {
+    'numToStr/FTerm.nvim',
+    config = function()
+      -- local map = vim.api.nvim_set_keymap
+      -- local opts = { noremap = true, silent = true }
+      require 'FTerm'.setup({
+        blend = 5,
+        -- dimensions = {
+        --   height = 0.90,
+        --   width = 0.90,
+        --   x = 0.5,
+        --   y = 0.5
+        -- }
+
+        extra_groups = {
+          "NormalFloat",   -- plugins which have float panel such as Lazy, Mason, LspInfo
+          "NvimTreeNormal" -- NvimTree
+        },
+      })
+    end
+  },
   {
     'sainnhe/gruvbox-material',
     lazy = false,
@@ -175,7 +200,7 @@ require('lazy').setup({
     -- See `:help lualine.txt`
     opts = {
       options = {
-        icons_enabled = false,
+        icons_enabled = true,
         theme = 'gruvbox-material',
         component_separators = '|',
         section_separators = '',
@@ -247,7 +272,7 @@ require('lazy').setup({
   -- { 'nvim-neo-tree/neo-tree.nvim' },
 
   -- gdscript syntax highlighting
-  { 'quabug/vim-gdscript' },
+  -- { 'quabug/vim-gdscript' },
 
 }, {})
 
@@ -389,7 +414,7 @@ vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { d
 vim.keymap.set('n', '<leader>/', function()
   -- You can pass additional configuration to telescope to change theme, layout, etc.
   require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-    winblend = 10,
+    -- winblend = 10,
     previewer = false,
   })
 end, { desc = '[/] Fuzzily search in current buffer' })
@@ -417,7 +442,7 @@ vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = 
 vim.defer_fn(function()
   require('nvim-treesitter.configs').setup {
     -- Add languages to be installed here that you want installed for treesitter
-    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash' },
+    ensure_installed = { 'gdscript', 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash', 'markdown' },
 
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
     auto_install = false,
@@ -525,6 +550,12 @@ local on_attach = function(_, bufnr)
   end, { desc = 'Format current buffer with LSP' })
 end
 
+local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
+
 -- document existing key chains
 require('which-key').register {
   ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
@@ -569,7 +600,7 @@ local servers = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false },
       -- NOTE: toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-      -- diagnostics = { disable = { 'missing-fields' } },
+      diagnostics = { disable = { 'missing-fields' } },
     },
   },
 }
@@ -587,6 +618,8 @@ local mason_lspconfig = require 'mason-lspconfig'
 mason_lspconfig.setup {
   ensure_installed = vim.tbl_keys(servers),
 }
+
+require 'lspconfig'.gdscript.setup {}
 
 mason_lspconfig.setup_handlers {
   function(server_name)
@@ -656,6 +689,11 @@ cmp.setup {
 vim.cmd([[
 au BufWinLeave *.md mkview
 au BufWinEnter *.md silent! loadview
+]])
+
+-- Enable plugin indent on gdscript
+vim.cmd([[
+au BufWinEnter *.gd filetype plugin indent on
 ]])
 
 -- The line beneath this is called `modeline`. See `:help modeline`
