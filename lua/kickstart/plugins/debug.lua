@@ -46,6 +46,12 @@ return {
       },
     }
 
+    dap.adapters.godot = {
+      type = "server",
+      host = "127.0.0.1",
+      port = 6006,
+    }
+
     -- Basic debugging keymaps, feel free to change to your liking!
     vim.keymap.set('n', '<F5>', dap.continue, { desc = 'Debug: Start/Continue' })
     vim.keymap.set('n', '<F8>', dap.terminate, { desc = 'Debug: Terminate' })
@@ -88,5 +94,16 @@ return {
 
     -- Install golang specific config
     require('dap-go').setup()
+
+    -- Godot config
+    dap.configurations.gdscript = {
+      {
+        type = "godot",
+        request = "launch",
+        name = "launch scene",
+        project = "${workspaceFolder}",
+        launch_scene = true,
+      },
+    }
   end,
 }

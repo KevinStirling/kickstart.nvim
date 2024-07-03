@@ -619,7 +619,10 @@ mason_lspconfig.setup {
   ensure_installed = vim.tbl_keys(servers),
 }
 
-require 'lspconfig'.gdscript.setup {}
+require("lspconfig")["gdscript"].setup({
+  name = "godot",
+  cmd = vim.lsp.rpc.connect("127.0.0.1", 6005),
+})
 
 mason_lspconfig.setup_handlers {
   function(server_name)
